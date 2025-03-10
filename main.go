@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "github.com/TB516/gophercises-quiz-game/internal/game"
 
 func main() {
-	fmt.Println("Hello World")
+	game.Run()
 }
