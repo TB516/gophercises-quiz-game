@@ -1,4 +1,4 @@
-package problems
+package game
 
 import (
 	"encoding/csv"

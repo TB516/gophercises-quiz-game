@@ -1,4 +1,4 @@
-package problems
+package game
 
 type Problem struct {
 	question string
