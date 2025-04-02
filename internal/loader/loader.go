@@ -1,13 +1,15 @@
-package problems
+package loader
 
 import (
 	"encoding/csv"
 	"io"
 	"os"
 	"strings"
+
+	"github.com/TB516/gophercises-quiz-game/internal/problem"
 )
 
-func LoadProblems(path string) ([]Problem, error) {
+func LoadProblems(path string) ([]problem.Problem, error) {
 	fileBytes, err := os.ReadFile(path)
 
 	if err != nil {
@@ -16,7 +18,7 @@ func LoadProblems(path string) ([]Problem, error) {
 
 	reader := csv.NewReader(strings.NewReader(string(fileBytes)))
 
-	problems := make([]Problem, 10)
+	problems := make([]problem.Problem, 10)
 
 	for {
 		record, err := reader.Read()
@@ -27,7 +29,7 @@ func LoadProblems(path string) ([]Problem, error) {
 			return nil, err
 		}
 
-		problems = append(problems, Problem{question: record[0], answer: record[1]})
+		problems = append(problems, problem.New(record[0], record[1]))
 	}
 
 	return problems, nil
