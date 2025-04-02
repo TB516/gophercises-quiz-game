@@ -1,22 +1,19 @@
 package loader
 
 import (
+	_ "embed"
 	"encoding/csv"
 	"io"
-	"os"
 	"strings"
 
 	"github.com/TB516/gophercises-quiz-game/internal/problem"
 )
 
-func LoadProblems(path string) ([]problem.Problem, error) {
-	fileBytes, err := os.ReadFile(path)
+//go:embed assets/problems.csv
+var problemsFile string
 
-	if err != nil {
-		return nil, err
-	}
-
-	reader := csv.NewReader(strings.NewReader(string(fileBytes)))
+func LoadProblems() ([]problem.Problem, error) {
+	reader := csv.NewReader(strings.NewReader(problemsFile))
 
 	problems := make([]problem.Problem, 10)
 
