@@ -12,22 +12,24 @@ import (
 //go:embed assets/problems.csv
 var problemsFile string
 
-func LoadProblems() ([]problem.Problem, error) {
+func LoadProblems(ch chan []problem.Problem) {
+	defer close(ch)
+
 	reader := csv.NewReader(strings.NewReader(problemsFile))
 
-	problems := make([]problem.Problem, 10)
+	problems := make([]problem.Problem, 15)
 
 	for {
 		record, err := reader.Read()
 
 		if err == io.EOF {
-			break
+			ch <- problems
+			return
 		} else if err != nil {
-			return nil, err
+			ch <- nil
+			return
 		}
 
 		problems = append(problems, problem.New(record[0], record[1]))
 	}
-
-	return problems, nil
 }
